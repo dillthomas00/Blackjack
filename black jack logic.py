@@ -14,6 +14,7 @@ def random_card():
         random_card()
     else:
         duplicates.append(card_picked)
+    
 
 def get_value(card):
     if "Spades" in card:
@@ -29,7 +30,6 @@ def get_value(card):
         card_value = 11
     elif card_value == "Jack" or card_value == "King" or card_value == "Queen":
         card_value = 10
-
     return card_value
     
 def player_calculate():
@@ -38,42 +38,53 @@ def player_calculate():
     card1_value = get_value(card_1)
     card2_value = get_value(card_2)
     player_total = int(card1_value) + int(card2_value)
-
-    while player_total < 21:
-        print ("hit me or stick?")
-        choice = input()
-        if choice == "h":
-            random_card()
-            another_card = duplicates[-1]
-            another_card_value = get_value(another_card)
-            player_total = player_total + int(another_card_value)
-            print ("new total " + str(player_total))
-        else:
+    while player_total <= 16:
+        random_card()
+        another_card = duplicates[-1]
+        another_card_value = get_value(another_card)
+        print (player_total)
+        player_total = player_total + int(another_card_value)
+        print ("Player's score wasn't high enough so they had to draw" + str(player_total))
+    while player_total < 17:
+        if player_total >= 22:
+            print ("Player has gone bust")
             break
+        else:
+            print ("hit me or stick?")
+            choice = input()
+            if choice == "h":
+                random_card()
+                another_card = duplicates[-1]
+                another_card_value = get_value(another_card)
+                player_total = player_total + int(another_card_value)
+                print ("new total " + str(player_total))
+            else:
+                break
     computer_calculate(player_total)
 
-    
-    
-
-
 def computer_calculate(player_total):
-    if player_total >= 22:
-        print ("Player has gone bust")
-    else:
-        
-        random_card() #Dealer
+        random_card() #Dealer cards
         random_card()
         card_1 = duplicates[-2]
         card_2 = duplicates[-1]
         card1_value = get_value(card_1)
         card2_value = get_value(card_2)
         computer_total = int(card1_value) + int(card2_value)
-        print (computer_total)
-        print (player_total)
-        if computer_total >= player_total:
-            print ("Dealer Wins")
-        else:
-            print ("Player Wins")
+        while computer_total <= 16:
+            random_card()
+            another_card = duplicates[-1]
+            another_card_value = get_value(another_card)
+            computer_total = computer_total + int(another_card_value)
+            print ("value wasn't high enough" +  str(computer_total))
+        if computer_total >= 22:
+            print ("Dealer has gone bust")
+        else:    
+            print (computer_total)
+            print (player_total)
+            if computer_total >= player_total:
+                print ("Dealer Wins")
+            else:
+                print ("Player Wins")
             
     
 
@@ -81,6 +92,3 @@ random_card() # player
 random_card()
 
 player_calculate()
-
-
-    
